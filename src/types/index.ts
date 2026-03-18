@@ -34,6 +34,17 @@ export interface AppState {
   theme: 'light' | 'dark'
 }
 
+export interface GroceryItem {
+  id: string
+  name: string
+  quantity: number
+  unit: string
+  category: string
+  notes?: string
+  checked: boolean
+  addedAt: string
+}
+
 export type Priority = 'low' | 'medium' | 'high'
 export type Recurrence = 'none' | 'daily' | 'weekly' | 'monthly' | 'custom'
 export type Theme = 'light' | 'dark'

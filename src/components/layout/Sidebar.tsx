@@ -9,6 +9,7 @@ import {
   BarChart3,
   Zap,
   X,
+  ShoppingCart,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -17,6 +18,7 @@ const navItems = [
   { href: '/chores', label: 'All Chores', icon: ListTodo },
   { href: '/history', label: 'History', icon: History },
   { href: '/stats', label: 'Statistics', icon: BarChart3 },
+  { href: '/grocery', label: 'Grocery', icon: ShoppingCart },
 ]
 
 interface SidebarProps {

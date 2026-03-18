@@ -1,4 +1,4 @@
-import { AppState, Chore, CompletionLog } from '@/types'
+import { AppState, Chore, CompletionLog, GroceryItem } from '@/types'
 
 const STORAGE_KEY = 'chore-app-state'
 
@@ -55,6 +55,30 @@ export function generateId(): string {
 
 export function getDefaultCategories(): string[] {
   return DEFAULT_CATEGORIES
+}
+
+// ── Grocery storage ──────────────────────────────────────────────────────────
+
+const GROCERY_KEY = 'chore-app-grocery'
+
+export function getGroceryItems(): GroceryItem[] {
+  if (typeof window === 'undefined') return []
+  try {
+    const raw = localStorage.getItem(GROCERY_KEY)
+    if (!raw) return []
+    return JSON.parse(raw) as GroceryItem[]
+  } catch {
+    return []
+  }
+}
+
+export function saveGroceryItems(items: GroceryItem[]): void {
+  if (typeof window === 'undefined') return
+  try {
+    localStorage.setItem(GROCERY_KEY, JSON.stringify(items))
+  } catch {
+    console.error('Failed to save grocery items')
+  }
 }
 
 export function isFreshInstall(): boolean {
