@@ -48,7 +48,9 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           'lg:translate-x-0 lg:relative lg:z-auto'
         )}
         style={{
-          background: 'linear-gradient(180deg, #080812 0%, #0a0a18 100%)',
+          background: 'linear-gradient(180deg, rgba(8,8,18,0.72) 0%, rgba(10,10,24,0.72) 100%)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
           borderRight: '1px solid #1e1e3f',
           boxShadow: '2px 0 20px rgba(0, 0, 0, 0.6)',
         }}

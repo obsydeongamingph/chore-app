@@ -125,25 +125,13 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
     background-color: #0a0a0f;
-    background-image: url('/bg.jpg');
+    background-image: linear-gradient(rgba(5, 5, 15, 0.78), rgba(5, 5, 15, 0.78)), url('/bg.jpg');
     background-size: cover;
     background-position: center top;
     background-attachment: fixed;
     background-repeat: no-repeat;
-  }
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: rgba(5, 5, 15, 0.82);
-    pointer-events: none;
-    z-index: 0;
-  }
-  #__next, main, [data-slot="sidebar"], header {
-    position: relative;
-    z-index: 1;
   }
   html {
     @apply font-sans;
