@@ -7,7 +7,7 @@ import {
   ListTodo,
   History,
   BarChart3,
-  Sparkles,
+  Zap,
   X,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -32,7 +32,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       {/* Overlay for mobile */}
       {open && (
         <div
-          className="fixed inset-0 bg-black/50 z-20 lg:hidden"
+          className="fixed inset-0 bg-black/70 z-20 lg:hidden backdrop-blur-sm"
           onClick={onClose}
         />
       )}
@@ -41,23 +41,41 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       <aside
         className={cn(
           'fixed top-0 left-0 h-full w-64 z-30 flex flex-col',
-          'bg-card border-r border-border',
           'transition-transform duration-300 ease-in-out',
           open ? 'translate-x-0' : '-translate-x-full',
           'lg:translate-x-0 lg:relative lg:z-auto'
         )}
+        style={{
+          background: 'linear-gradient(180deg, #080812 0%, #0a0a18 100%)',
+          borderRight: '1px solid #1e1e3f',
+          boxShadow: '2px 0 20px rgba(0, 0, 0, 0.6)',
+        }}
       >
         {/* Logo */}
-        <div className="flex items-center justify-between p-5 border-b border-border">
+        <div
+          className="flex items-center justify-between p-5"
+          style={{ borderBottom: '1px solid #1e1e3f' }}
+        >
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-primary-foreground" />
+            <div
+              className="w-8 h-8 rounded-lg flex items-center justify-center"
+              style={{
+                background: 'linear-gradient(135deg, #00f5ff 0%, #0080ff 100%)',
+                boxShadow: '0 0 14px rgba(0,245,255,0.6)',
+              }}
+            >
+              <Zap className="w-4 h-4 text-[#0a0a0f]" />
             </div>
-            <span className="font-bold text-lg tracking-tight">ChoreApp</span>
+            <span
+              className="font-bold text-lg tracking-widest uppercase"
+              style={{ color: '#00f5ff', textShadow: '0 0 10px rgba(0,245,255,0.7)' }}
+            >
+              ChoreApp
+            </span>
           </div>
           <button
             onClick={onClose}
-            className="lg:hidden p-1 rounded-md hover:bg-accent text-muted-foreground"
+            className="lg:hidden p-1 rounded-md text-muted-foreground hover:text-[#00f5ff] transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -74,11 +92,15 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                 href={item.href}
                 onClick={() => onClose()}
                 className={cn(
-                  'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+                  'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 uppercase tracking-wider',
                   isActive
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                    ? 'text-[#0a0a0f]'
+                    : 'text-muted-foreground hover:text-[#00f5ff]'
                 )}
+                style={isActive ? {
+                  background: 'linear-gradient(135deg, #00f5ff 0%, #0080ff 100%)',
+                  boxShadow: '0 0 14px rgba(0,245,255,0.45)',
+                } : {}}
               >
                 <Icon className="w-4 h-4 flex-shrink-0" />
                 {item.label}
@@ -88,10 +110,18 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-border">
-          <p className="text-xs text-muted-foreground text-center">
-            Keep your space clean ✨
+        <div
+          className="p-4"
+          style={{ borderTop: '1px solid #1e1e3f' }}
+        >
+          <p className="text-xs text-muted-foreground text-center uppercase tracking-widest">
+            Level up your space
           </p>
+          {/* Neon accent line at bottom */}
+          <div
+            className="mt-3 h-[1px] rounded-full"
+            style={{ background: 'linear-gradient(90deg, transparent, #00f5ff66, transparent)' }}
+          />
         </div>
       </aside>
     </>

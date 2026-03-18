@@ -13,7 +13,7 @@ export function useChores() {
     completionLog: [],
     totalPoints: 0,
     categories: [],
-    theme: 'light',
+    theme: 'dark',
   }))
   const [isLoaded, setIsLoaded] = useState(false)
 

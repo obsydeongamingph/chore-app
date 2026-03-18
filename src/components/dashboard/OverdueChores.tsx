@@ -24,12 +24,29 @@ export function OverdueChores() {
 
   return (
     <>
-      <Card className="border-0 shadow-sm border-l-4 border-l-red-400">
+      <Card
+        className="neon-card border-l-4 overflow-hidden"
+        style={{
+          borderLeftColor: '#ff0044',
+          boxShadow: '0 0 18px rgba(255, 0, 68, 0.15), -3px 0 12px rgba(255, 0, 68, 0.25)',
+        }}
+      >
+        <div className="h-[2px] bg-gradient-to-r from-[#ff0044] to-[#ff6600]" />
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-semibold flex items-center gap-2 text-red-600 dark:text-red-400">
-            <AlertTriangle className="w-4 h-4" />
+          <CardTitle
+            className="text-xs font-semibold flex items-center gap-2 uppercase tracking-widest"
+            style={{ color: '#ff0044', textShadow: '0 0 8px rgba(255,0,68,0.6)' }}
+          >
+            <AlertTriangle className="w-4 h-4" style={{ filter: 'drop-shadow(0 0 4px #ff0044)' }} />
             Overdue
-            <Badge className="text-xs bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-0">
+            <Badge
+              className="text-xs border-0"
+              style={{
+                background: 'rgba(255,0,68,0.15)',
+                color: '#ff0044',
+                border: '1px solid rgba(255,0,68,0.35)',
+              }}
+            >
               {overdueChores.length}
             </Badge>
           </CardTitle>

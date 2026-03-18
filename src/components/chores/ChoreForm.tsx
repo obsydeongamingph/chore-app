@@ -127,79 +127,105 @@ export function ChoreForm({ open, onClose, editingChore }: ChoreFormProps) {
     setNewCategory('')
   }
 
+  const inputClass = "bg-[#0d0d1a] border-[#1e1e3f] text-foreground focus:border-[#00f5ff] focus:shadow-[0_0_8px_rgba(0,245,255,0.2)] transition-all placeholder:text-muted-foreground"
+
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!o) { onClose(); resetForm() } }}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent
+        className="max-w-lg max-h-[90vh] overflow-y-auto"
+        style={{
+          background: 'linear-gradient(135deg, #0a0a18 0%, #0d0d1a 100%)',
+          border: '1px solid #1e1e3f',
+          boxShadow: '0 0 40px rgba(0,245,255,0.12), 0 0 80px rgba(0,0,0,0.8)',
+        }}
+      >
+        <div
+          className="absolute inset-x-0 top-0 h-[2px] rounded-t-lg"
+          style={{ background: 'linear-gradient(90deg, #00f5ff, #bf00ff, #00f5ff)' }}
+        />
         <DialogHeader>
-          <DialogTitle>{editingChore ? 'Edit Chore' : 'Add New Chore'}</DialogTitle>
+          <DialogTitle
+            className="uppercase tracking-widest text-sm font-bold"
+            style={{ color: '#00f5ff', textShadow: '0 0 10px rgba(0,245,255,0.6)' }}
+          >
+            {editingChore ? 'Edit Chore' : 'Add New Chore'}
+          </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
           {/* Name */}
           <div className="space-y-1.5">
-            <Label htmlFor="name">Chore Name *</Label>
+            <Label htmlFor="name" className="text-xs uppercase tracking-wider text-muted-foreground">Chore Name *</Label>
             <Input
               id="name"
               placeholder="e.g. Wash the dishes"
               value={name}
               onChange={e => setName(e.target.value)}
-              className={errors.name ? 'border-destructive' : ''}
+              className={`${inputClass} ${errors.name ? 'border-[#ff0044]' : ''}`}
             />
-            {errors.name && <p className="text-xs text-destructive">{errors.name}</p>}
+            {errors.name && <p className="text-xs" style={{ color: '#ff0044' }}>{errors.name}</p>}
           </div>
 
           {/* Description */}
           <div className="space-y-1.5">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description" className="text-xs uppercase tracking-wider text-muted-foreground">Description</Label>
             <Textarea
               id="description"
               placeholder="Optional notes or details..."
               value={description}
               onChange={e => setDescription(e.target.value)}
               rows={2}
+              className={inputClass}
             />
           </div>
 
           {/* Category */}
           <div className="space-y-1.5">
-            <Label>Category *</Label>
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Category *</Label>
             <div className="flex gap-2">
               <Select value={category} onValueChange={(v) => v && setCategory(v)}>
-                <SelectTrigger className={`flex-1 ${errors.category ? 'border-destructive' : ''}`}>
+                <SelectTrigger className={`flex-1 ${inputClass} ${errors.category ? 'border-[#ff0044]' : ''}`}>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent style={{ background: '#0d0d1a', border: '1px solid #1e1e3f' }}>
                   {categories.map(cat => (
                     <SelectItem key={cat} value={cat}>{cat}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
-            {errors.category && <p className="text-xs text-destructive">{errors.category}</p>}
-            {/* Add new category */}
+            {errors.category && <p className="text-xs" style={{ color: '#ff0044' }}>{errors.category}</p>}
             <div className="flex gap-2 mt-1">
               <Input
                 placeholder="New category..."
                 value={newCategory}
                 onChange={e => setNewCategory(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleAddCategory() } }}
-                className="flex-1 h-8 text-sm"
+                className={`flex-1 h-8 text-sm ${inputClass}`}
               />
-              <Button variant="outline" size="sm" onClick={handleAddCategory} className="h-8">
+              <button
+                onClick={handleAddCategory}
+                className="h-8 px-3 rounded text-xs font-medium transition-all"
+                style={{
+                  background: 'rgba(0,245,255,0.1)',
+                  border: '1px solid rgba(0,245,255,0.3)',
+                  color: '#00f5ff',
+                }}
+              >
                 Add
-              </Button>
+              </button>
             </div>
           </div>
 
           {/* Priority & Duration */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label>Priority</Label>
+              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Priority</Label>
               <Select value={priority} onValueChange={(v) => setPriority(v as typeof priority)}>
-                <SelectTrigger>
+                <SelectTrigger className={inputClass}>
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent style={{ background: '#0d0d1a', border: '1px solid #1e1e3f' }}>
                   {PRIORITIES.map(p => (
                     <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>
                   ))}
@@ -208,7 +234,7 @@ export function ChoreForm({ open, onClose, editingChore }: ChoreFormProps) {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="duration">Est. Duration (mins)</Label>
+              <Label htmlFor="duration" className="text-xs uppercase tracking-wider text-muted-foreground">Est. Duration (mins)</Label>
               <Input
                 id="duration"
                 type="number"
@@ -216,18 +242,19 @@ export function ChoreForm({ open, onClose, editingChore }: ChoreFormProps) {
                 value={estimatedMinutes}
                 onChange={e => setEstimatedMinutes(e.target.value)}
                 min={1}
+                className={inputClass}
               />
             </div>
           </div>
 
           {/* Recurrence */}
           <div className="space-y-1.5">
-            <Label>Recurrence</Label>
+            <Label className="text-xs uppercase tracking-wider text-muted-foreground">Recurrence</Label>
             <Select value={recurrence} onValueChange={(v) => setRecurrence(v as typeof recurrence)}>
-              <SelectTrigger>
+              <SelectTrigger className={inputClass}>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent style={{ background: '#0d0d1a', border: '1px solid #1e1e3f' }}>
                 {RECURRENCES.map(r => (
                   <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
                 ))}
@@ -238,40 +265,55 @@ export function ChoreForm({ open, onClose, editingChore }: ChoreFormProps) {
           {/* Custom interval */}
           {recurrence === 'custom' && (
             <div className="space-y-1.5">
-              <Label htmlFor="interval">Repeat every (days)</Label>
+              <Label htmlFor="interval" className="text-xs uppercase tracking-wider text-muted-foreground">Repeat every (days)</Label>
               <Input
                 id="interval"
                 type="number"
                 value={customIntervalDays}
                 onChange={e => setCustomIntervalDays(e.target.value)}
                 min={1}
-                className={errors.customIntervalDays ? 'border-destructive' : ''}
+                className={`${inputClass} ${errors.customIntervalDays ? 'border-[#ff0044]' : ''}`}
               />
-              {errors.customIntervalDays && <p className="text-xs text-destructive">{errors.customIntervalDays}</p>}
+              {errors.customIntervalDays && <p className="text-xs" style={{ color: '#ff0044' }}>{errors.customIntervalDays}</p>}
             </div>
           )}
 
-          {/* Due date (for one-time or as start date) */}
+          {/* Due date */}
           {recurrence === 'none' && (
             <div className="space-y-1.5">
-              <Label htmlFor="dueDate">Due Date</Label>
+              <Label htmlFor="dueDate" className="text-xs uppercase tracking-wider text-muted-foreground">Due Date</Label>
               <Input
                 id="dueDate"
                 type="date"
                 value={dueDate}
                 onChange={e => setDueDate(e.target.value)}
+                className={inputClass}
               />
             </div>
           )}
         </div>
 
         <DialogFooter className="gap-2">
-          <Button variant="outline" onClick={() => { onClose(); resetForm() }}>
+          <button
+            onClick={() => { onClose(); resetForm() }}
+            className="px-4 py-2 rounded text-sm font-medium transition-all text-muted-foreground hover:text-foreground"
+            style={{ border: '1px solid #1e1e3f' }}
+          >
             Cancel
-          </Button>
-          <Button onClick={handleSubmit}>
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="px-4 py-2 rounded text-sm font-bold transition-all"
+            style={{
+              background: 'linear-gradient(135deg, #00f5ff 0%, #0080ff 100%)',
+              color: '#0a0a0f',
+              boxShadow: '0 0 12px rgba(0,245,255,0.4)',
+            }}
+            onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.boxShadow = '0 0 20px rgba(0,245,255,0.65)')}
+            onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.boxShadow = '0 0 12px rgba(0,245,255,0.4)')}
+          >
             {editingChore ? 'Save Changes' : 'Add Chore'}
-          </Button>
+          </button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

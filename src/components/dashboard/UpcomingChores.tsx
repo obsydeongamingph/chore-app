@@ -27,13 +27,24 @@ export function UpcomingChores() {
 
   return (
     <>
-      <Card className="border-0 shadow-sm">
+      <Card className="neon-card border overflow-hidden">
+        <div className="h-[2px] bg-gradient-to-r from-[#00f5ff] to-[#bf00ff]" />
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-semibold flex items-center gap-2">
-            <CalendarDays className="w-4 h-4 text-blue-500" />
+          <CardTitle className="text-xs font-semibold flex items-center gap-2 uppercase tracking-widest text-muted-foreground">
+            <CalendarDays className="w-4 h-4" style={{ color: '#00f5ff', filter: 'drop-shadow(0 0 4px #00f5ff)' }} />
             Upcoming This Week
             {upcomingChores.length > 0 && (
-              <Badge variant="secondary" className="text-xs">{upcomingChores.length}</Badge>
+              <Badge
+                variant="secondary"
+                className="text-xs"
+                style={{
+                  background: 'rgba(0,245,255,0.1)',
+                  border: '1px solid rgba(0,245,255,0.3)',
+                  color: '#00f5ff',
+                }}
+              >
+                {upcomingChores.length}
+              </Badge>
             )}
           </CardTitle>
         </CardHeader>
@@ -41,7 +52,7 @@ export function UpcomingChores() {
           {upcomingChores.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               <div className="text-3xl mb-2">📅</div>
-              <p className="text-sm">Nothing scheduled for this week.</p>
+              <p className="text-sm uppercase tracking-wide">Nothing scheduled for this week.</p>
             </div>
           ) : (
             <div className="space-y-2">

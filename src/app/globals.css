@@ -47,73 +47,77 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ── NEON GAMING THEME (forced dark, always active) ── */
 :root {
-  --background: oklch(0.99 0 0);
-  --foreground: oklch(0.15 0.01 260);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0.01 260);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.01 260);
-  --primary: oklch(0.55 0.18 260);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.96 0.01 260);
-  --secondary-foreground: oklch(0.25 0.02 260);
-  --muted: oklch(0.96 0.005 260);
-  --muted-foreground: oklch(0.52 0.02 260);
-  --accent: oklch(0.95 0.01 260);
-  --accent-foreground: oklch(0.25 0.02 260);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.91 0.01 260);
-  --input: oklch(0.91 0.01 260);
-  --ring: oklch(0.55 0.18 260);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0.005 260);
-  --sidebar-foreground: oklch(0.15 0.01 260);
-  --sidebar-primary: oklch(0.55 0.18 260);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.94 0.01 260);
-  --sidebar-accent-foreground: oklch(0.25 0.02 260);
-  --sidebar-border: oklch(0.91 0.01 260);
-  --sidebar-ring: oklch(0.55 0.18 260);
+  --background: oklch(0.07 0.02 265);
+  --foreground: oklch(0.92 0.03 240);
+  --card: oklch(0.10 0.025 265);
+  --card-foreground: oklch(0.92 0.03 240);
+  --popover: oklch(0.10 0.025 265);
+  --popover-foreground: oklch(0.92 0.03 240);
+  --primary: oklch(0.85 0.18 195);
+  --primary-foreground: oklch(0.07 0.02 265);
+  --secondary: oklch(0.55 0.28 295);
+  --secondary-foreground: oklch(0.92 0.03 240);
+  --muted: oklch(0.14 0.03 265);
+  --muted-foreground: oklch(0.50 0.06 265);
+  --accent: oklch(0.78 0.22 155);
+  --accent-foreground: oklch(0.07 0.02 265);
+  --destructive: oklch(0.65 0.28 15);
+  --destructive-foreground: oklch(0.92 0.03 240);
+  --border: oklch(0.18 0.04 265);
+  --input: oklch(0.12 0.03 265);
+  --ring: oklch(0.85 0.18 195);
+  --radius: 0.5rem;
+  --chart-1: oklch(0.85 0.18 195);
+  --chart-2: oklch(0.55 0.28 295);
+  --chart-3: oklch(0.78 0.22 155);
+  --chart-4: oklch(0.75 0.22 55);
+  --chart-5: oklch(0.65 0.28 15);
+  --sidebar: oklch(0.08 0.025 265);
+  --sidebar-foreground: oklch(0.92 0.03 240);
+  --sidebar-primary: oklch(0.85 0.18 195);
+  --sidebar-primary-foreground: oklch(0.07 0.02 265);
+  --sidebar-accent: oklch(0.14 0.03 265);
+  --sidebar-accent-foreground: oklch(0.92 0.03 240);
+  --sidebar-border: oklch(0.18 0.04 265);
+  --sidebar-ring: oklch(0.85 0.18 195);
 }
 
+/* Keep .dark identical so toggling theme works the same */
 .dark {
-  --background: oklch(0.14 0.01 260);
-  --foreground: oklch(0.96 0.005 260);
-  --card: oklch(0.18 0.015 260);
-  --card-foreground: oklch(0.96 0.005 260);
-  --popover: oklch(0.18 0.015 260);
-  --popover-foreground: oklch(0.96 0.005 260);
-  --primary: oklch(0.65 0.18 260);
-  --primary-foreground: oklch(0.1 0.01 260);
-  --secondary: oklch(0.24 0.02 260);
-  --secondary-foreground: oklch(0.96 0.005 260);
-  --muted: oklch(0.24 0.02 260);
-  --muted-foreground: oklch(0.65 0.02 260);
-  --accent: oklch(0.24 0.02 260);
-  --accent-foreground: oklch(0.96 0.005 260);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.65 0.18 260);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.18 0.015 260);
-  --sidebar-foreground: oklch(0.96 0.005 260);
-  --sidebar-primary: oklch(0.65 0.18 260);
-  --sidebar-primary-foreground: oklch(0.1 0.01 260);
-  --sidebar-accent: oklch(0.24 0.02 260);
-  --sidebar-accent-foreground: oklch(0.96 0.005 260);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.65 0.18 260);
+  --background: oklch(0.07 0.02 265);
+  --foreground: oklch(0.92 0.03 240);
+  --card: oklch(0.10 0.025 265);
+  --card-foreground: oklch(0.92 0.03 240);
+  --popover: oklch(0.10 0.025 265);
+  --popover-foreground: oklch(0.92 0.03 240);
+  --primary: oklch(0.85 0.18 195);
+  --primary-foreground: oklch(0.07 0.02 265);
+  --secondary: oklch(0.55 0.28 295);
+  --secondary-foreground: oklch(0.92 0.03 240);
+  --muted: oklch(0.14 0.03 265);
+  --muted-foreground: oklch(0.50 0.06 265);
+  --accent: oklch(0.78 0.22 155);
+  --accent-foreground: oklch(0.07 0.02 265);
+  --destructive: oklch(0.65 0.28 15);
+  --destructive-foreground: oklch(0.92 0.03 240);
+  --border: oklch(0.18 0.04 265);
+  --input: oklch(0.12 0.03 265);
+  --ring: oklch(0.85 0.18 195);
+  --chart-1: oklch(0.85 0.18 195);
+  --chart-2: oklch(0.55 0.28 295);
+  --chart-3: oklch(0.78 0.22 155);
+  --chart-4: oklch(0.75 0.22 55);
+  --chart-5: oklch(0.65 0.28 15);
+  --sidebar: oklch(0.08 0.025 265);
+  --sidebar-foreground: oklch(0.92 0.03 240);
+  --sidebar-primary: oklch(0.85 0.18 195);
+  --sidebar-primary-foreground: oklch(0.07 0.02 265);
+  --sidebar-accent: oklch(0.14 0.03 265);
+  --sidebar-accent-foreground: oklch(0.92 0.03 240);
+  --sidebar-border: oklch(0.18 0.04 265);
+  --sidebar-ring: oklch(0.85 0.18 195);
 }
 
 @layer base {
@@ -122,8 +126,99 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-color: #0a0a0f;
   }
   html {
     @apply font-sans;
+    background-color: #0a0a0f;
   }
+}
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0a0a0f; }
+::-webkit-scrollbar-thumb { background: rgba(0, 245, 255, 0.25); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0, 245, 255, 0.55); }
+
+/* ── Neon text utilities ── */
+.neon-text-cyan {
+  color: #00f5ff;
+  text-shadow: 0 0 8px rgba(0, 245, 255, 0.9), 0 0 18px rgba(0, 245, 255, 0.5);
+}
+.neon-text-purple {
+  color: #bf00ff;
+  text-shadow: 0 0 8px rgba(191, 0, 255, 0.9), 0 0 18px rgba(191, 0, 255, 0.5);
+}
+.neon-text-green {
+  color: #00ff88;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.9), 0 0 18px rgba(0, 255, 136, 0.5);
+}
+.neon-text-yellow {
+  color: #ffcc00;
+  text-shadow: 0 0 8px rgba(255, 204, 0, 0.9), 0 0 18px rgba(255, 204, 0, 0.5);
+}
+.neon-text-orange {
+  color: #ff6600;
+  text-shadow: 0 0 8px rgba(255, 102, 0, 0.9), 0 0 18px rgba(255, 102, 0, 0.5);
+}
+.neon-text-red {
+  color: #ff0044;
+  text-shadow: 0 0 8px rgba(255, 0, 68, 0.9), 0 0 18px rgba(255, 0, 68, 0.5);
+}
+
+/* ── Neon glow box utilities ── */
+.neon-glow-cyan {
+  box-shadow: 0 0 15px rgba(0, 245, 255, 0.35), inset 0 0 15px rgba(0, 245, 255, 0.04);
+}
+.neon-glow-purple {
+  box-shadow: 0 0 15px rgba(191, 0, 255, 0.35), inset 0 0 15px rgba(191, 0, 255, 0.04);
+}
+.neon-glow-green {
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.35), inset 0 0 15px rgba(0, 255, 136, 0.04);
+}
+.neon-glow-red {
+  box-shadow: 0 0 15px rgba(255, 0, 68, 0.35), inset 0 0 15px rgba(255, 0, 68, 0.04);
+}
+
+/* ── Neon card base ── */
+.neon-card {
+  background: linear-gradient(135deg, #0d0d1a 0%, #12121f 100%);
+  border: 1px solid #1e1e3f;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.neon-card:hover {
+  border-color: rgba(0, 245, 255, 0.28);
+  box-shadow: 0 0 22px rgba(0, 245, 255, 0.12);
+}
+
+/* ── Neon button pulse on active ── */
+.neon-btn-cyan {
+  background: linear-gradient(135deg, #00c8d4 0%, #0080ff 100%);
+  box-shadow: 0 0 12px rgba(0, 245, 255, 0.45);
+  transition: box-shadow 0.2s ease;
+}
+.neon-btn-cyan:hover {
+  box-shadow: 0 0 22px rgba(0, 245, 255, 0.7);
+}
+
+/* ── Progress bar neon ── */
+.neon-progress [data-slot="progress-indicator"] {
+  background: linear-gradient(90deg, #00f5ff 0%, #bf00ff 100%);
+  box-shadow: 0 0 8px rgba(0, 245, 255, 0.6);
+}
+
+/* ── Subtle scanline texture on body (very light) ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
 }

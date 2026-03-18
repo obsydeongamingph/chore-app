@@ -29,10 +29,10 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const PRIORITY_COLORS = {
-  low: 'bg-green-400',
-  medium: 'bg-yellow-400',
-  high: 'bg-red-400',
+const PRIORITY_NEON_COLORS = {
+  low: 'bg-[#00ff88]',
+  medium: 'bg-[#ffcc00]',
+  high: 'bg-[#ff0044]',
 }
 
 export default function StatsPage() {
@@ -63,7 +63,6 @@ export default function StatsPage() {
   const weekPoints = weekCompletions.reduce((sum, log) => sum + log.pointsEarned, 0)
   const monthPoints = monthCompletions.reduce((sum, log) => sum + log.pointsEarned, 0)
 
-  // Category breakdown
   const categoryStats = useMemo(() => {
     const counts: Record<string, { total: number; completed: number }> = {}
     for (const log of completionLog) {
@@ -80,7 +79,6 @@ export default function StatsPage() {
       .sort((a, b) => b.completed - a.completed)
   }, [completionLog, activeChores])
 
-  // Priority breakdown
   const priorityStats = useMemo(() => {
     const counts = { low: 0, medium: 0, high: 0 }
     for (const log of completionLog) {
@@ -94,7 +92,6 @@ export default function StatsPage() {
     }))
   }, [completionLog])
 
-  // Top chores
   const topChores = useMemo(() =>
     [...activeChores]
       .sort((a, b) => b.totalCompletions - a.totalCompletions)
@@ -102,7 +99,6 @@ export default function StatsPage() {
     [activeChores]
   )
 
-  // Streak leaders
   const streakLeaders = useMemo(() =>
     [...activeChores]
       .filter(c => c.streak > 0)
@@ -111,7 +107,6 @@ export default function StatsPage() {
     [activeChores]
   )
 
-  // Weekly activity (last 7 days)
   const weekDays = useMemo(() => {
     return Array.from({ length: 7 }, (_, i) => {
       const d = new Date(thisWeekStart)
@@ -128,106 +123,118 @@ export default function StatsPage() {
   }, [completionLog, thisWeekStart])
 
   const maxDayCount = Math.max(...weekDays.map(d => d.count), 1)
-
   const weekVsLastWeek = weekCompletions.length - lastWeekCompletions.length
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
+        <h1 className="text-2xl font-bold tracking-widest uppercase neon-text-cyan flex items-center gap-2">
           <BarChart3 className="w-6 h-6" />
           Statistics
         </h1>
-        <p className="text-muted-foreground text-sm mt-0.5">
+        <p className="text-muted-foreground text-sm mt-0.5 tracking-wide">
           Your performance overview and insights
         </p>
       </div>
 
       {/* XP Level Card */}
-      <Card className="border-0 shadow-sm bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20">
+      <Card className="neon-card border neon-glow-purple overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-[#00f5ff] via-[#bf00ff] to-[#00f5ff]" />
         <CardContent className="p-5">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center">
-                <Trophy className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+              <div className="w-12 h-12 rounded-xl bg-[#ffcc0015] border border-[#ffcc0040] flex items-center justify-center">
+                <Trophy className="w-6 h-6 neon-text-yellow" />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Current Level</p>
-                <p className="text-xl font-bold">Level {xp.level} · {xp.title}</p>
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">Current Level</p>
+                <p className="text-xl font-bold tracking-wide">Level {xp.level} · {xp.title}</p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{totalPoints.toLocaleString()}</p>
-              <p className="text-xs text-muted-foreground">Total XP</p>
+              <p className="text-3xl font-bold neon-text-yellow">{totalPoints.toLocaleString()}</p>
+              <p className="text-xs text-muted-foreground uppercase tracking-wider">Total XP</p>
             </div>
           </div>
           <div className="space-y-1.5">
             <div className="flex justify-between text-xs text-muted-foreground">
-              <span>Progress to Level {xp.level + 1}</span>
+              <span className="uppercase tracking-wider">Progress to Level {xp.level + 1}</span>
               <span>{xp.progress}% · {xp.nextLevelPoints - totalPoints} XP to go</span>
             </div>
-            <Progress value={xp.progress} className="h-2.5" />
+            <div className="h-2.5 rounded-full bg-[#1e1e3f] overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-500"
+                style={{
+                  width: `${xp.progress}%`,
+                  background: 'linear-gradient(90deg, #00f5ff 0%, #bf00ff 100%)',
+                  boxShadow: '0 0 8px rgba(0,245,255,0.6)',
+                }}
+              />
+            </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-1">
-              <CheckCircle2 className="w-4 h-4 text-blue-500" />
-              <p className="text-xs text-muted-foreground">This Week</p>
-            </div>
-            <p className="text-2xl font-bold">{weekCompletions.length}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              {weekVsLastWeek > 0
-                ? <span className="text-green-500">+{weekVsLastWeek} vs last week</span>
-                : weekVsLastWeek < 0
-                  ? <span className="text-red-500">{weekVsLastWeek} vs last week</span>
-                  : 'Same as last week'
-              }
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-1">
-              <Target className="w-4 h-4 text-purple-500" />
-              <p className="text-xs text-muted-foreground">This Month</p>
-            </div>
-            <p className="text-2xl font-bold">{monthCompletions.length}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">+{monthPoints} XP earned</p>
-          </CardContent>
-        </Card>
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-1">
-              <Flame className="w-4 h-4 text-orange-500" />
-              <p className="text-xs text-muted-foreground">Best Streak</p>
-            </div>
-            <p className="text-2xl font-bold">{bestStreak}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">consecutive days</p>
-          </CardContent>
-        </Card>
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-1">
-              <Star className="w-4 h-4 text-yellow-500" />
-              <p className="text-xs text-muted-foreground">Total Completions</p>
-            </div>
-            <p className="text-2xl font-bold">{completionLog.length}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">all time</p>
-          </CardContent>
-        </Card>
+        {[
+          {
+            icon: CheckCircle2,
+            label: 'This Week',
+            value: weekCompletions.length,
+            sub: weekVsLastWeek > 0
+              ? <span className="neon-text-green">+{weekVsLastWeek} vs last week</span>
+              : weekVsLastWeek < 0
+                ? <span className="neon-text-red">{weekVsLastWeek} vs last week</span>
+                : <span>Same as last week</span>,
+            iconClass: 'text-[#00f5ff]',
+            topBorder: 'from-[#00f5ff] to-[#0080ff]',
+          },
+          {
+            icon: Target,
+            label: 'This Month',
+            value: monthCompletions.length,
+            sub: <span>+{monthPoints} XP earned</span>,
+            iconClass: 'text-[#bf00ff]',
+            topBorder: 'from-[#bf00ff] to-[#ff00ff]',
+          },
+          {
+            icon: Flame,
+            label: 'Best Streak',
+            value: bestStreak,
+            sub: <span>consecutive days</span>,
+            iconClass: 'text-[#ff6600]',
+            topBorder: 'from-[#ff6600] to-[#ffcc00]',
+          },
+          {
+            icon: Star,
+            label: 'Total Completions',
+            value: completionLog.length,
+            sub: <span>all time</span>,
+            iconClass: 'text-[#ffcc00]',
+            topBorder: 'from-[#ffcc00] to-[#ff6600]',
+          },
+        ].map(({ icon: Icon, label, value, sub, iconClass, topBorder }) => (
+          <Card key={label} className="neon-card border overflow-hidden">
+            <div className={`h-[2px] bg-gradient-to-r ${topBorder}`} />
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 mb-1">
+                <Icon className={cn('w-4 h-4', iconClass)} />
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">{label}</p>
+              </div>
+              <p className="text-2xl font-bold">{value}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{sub}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       {/* Weekly activity chart */}
-      <Card className="border-0 shadow-sm">
+      <Card className="neon-card border">
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-semibold flex items-center gap-2">
-            <TrendingUp className="w-4 h-4" />
-            This Week's Activity
+          <CardTitle className="text-xs font-semibold uppercase tracking-widest flex items-center gap-2 text-muted-foreground">
+            <TrendingUp className="w-4 h-4 text-[#00f5ff]" />
+            This Week&apos;s Activity
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -239,13 +246,19 @@ export default function StatsPage() {
                 <div key={day} className="flex flex-col items-center gap-1.5 flex-1">
                   <span className="text-xs font-medium text-muted-foreground">{count > 0 ? count : ''}</span>
                   <div
-                    className={cn(
-                      'w-full rounded-t-md transition-all',
-                      isCurrentDay ? 'bg-primary' : 'bg-primary/30',
-                    )}
-                    style={{ height: `${height}px` }}
+                    className="w-full rounded-t-md transition-all"
+                    style={{
+                      height: `${height}px`,
+                      background: isCurrentDay
+                        ? 'linear-gradient(180deg, #00f5ff 0%, #0080ff 100%)'
+                        : 'rgba(0, 245, 255, 0.18)',
+                      boxShadow: isCurrentDay ? '0 0 10px rgba(0,245,255,0.5)' : 'none',
+                    }}
                   />
-                  <span className={cn('text-xs', isCurrentDay ? 'font-bold text-primary' : 'text-muted-foreground')}>
+                  <span className={cn(
+                    'text-xs',
+                    isCurrentDay ? 'font-bold neon-text-cyan' : 'text-muted-foreground'
+                  )}>
                     {day}
                   </span>
                 </div>
@@ -257,9 +270,9 @@ export default function StatsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Category breakdown */}
-        <Card className="border-0 shadow-sm">
+        <Card className="neon-card border">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold">By Category</CardTitle>
+            <CardTitle className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">By Category</CardTitle>
           </CardHeader>
           <CardContent>
             {categoryStats.length === 0 ? (
@@ -272,10 +285,16 @@ export default function StatsPage() {
                       <span className="font-medium truncate">{category}</span>
                       <span className="text-muted-foreground flex-shrink-0 ml-2">{completed} completions</span>
                     </div>
-                    <Progress
-                      value={Math.round((completed / Math.max(categoryStats[0].completed, 1)) * 100)}
-                      className="h-1.5"
-                    />
+                    <div className="h-1.5 rounded-full bg-[#1e1e3f] overflow-hidden">
+                      <div
+                        className="h-full rounded-full"
+                        style={{
+                          width: `${Math.round((completed / Math.max(categoryStats[0].completed, 1)) * 100)}%`,
+                          background: 'linear-gradient(90deg, #00f5ff 0%, #bf00ff 100%)',
+                          boxShadow: '0 0 6px rgba(0,245,255,0.4)',
+                        }}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -284,37 +303,52 @@ export default function StatsPage() {
         </Card>
 
         {/* Priority breakdown */}
-        <Card className="border-0 shadow-sm">
+        <Card className="neon-card border">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold">By Priority</CardTitle>
+            <CardTitle className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">By Priority</CardTitle>
           </CardHeader>
           <CardContent>
             {completionLog.length === 0 ? (
               <p className="text-sm text-muted-foreground text-center py-4">No completions yet</p>
             ) : (
               <div className="space-y-3">
-                {priorityStats.map(({ priority, count, pct }) => (
-                  <div key={priority} className="space-y-1">
-                    <div className="flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-2">
-                        <div className={cn('w-2 h-2 rounded-full', PRIORITY_COLORS[priority])} />
-                        <span className="font-medium capitalize">{priority}</span>
+                {priorityStats.map(({ priority, count, pct }) => {
+                  const barColor = priority === 'high' ? '#ff0044' : priority === 'medium' ? '#ffcc00' : '#00ff88'
+                  return (
+                    <div key={priority} className="space-y-1">
+                      <div className="flex items-center justify-between text-xs">
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="w-2 h-2 rounded-full"
+                            style={{ backgroundColor: barColor, boxShadow: `0 0 6px ${barColor}` }}
+                          />
+                          <span className="font-medium capitalize">{priority}</span>
+                        </div>
+                        <span className="text-muted-foreground">{count} ({pct}%)</span>
                       </div>
-                      <span className="text-muted-foreground">{count} ({pct}%)</span>
+                      <div className="h-1.5 rounded-full bg-[#1e1e3f] overflow-hidden">
+                        <div
+                          className="h-full rounded-full"
+                          style={{
+                            width: `${pct}%`,
+                            backgroundColor: barColor,
+                            boxShadow: `0 0 6px ${barColor}88`,
+                          }}
+                        />
+                      </div>
                     </div>
-                    <Progress value={pct} className="h-1.5" />
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             )}
           </CardContent>
         </Card>
 
         {/* Top chores */}
-        <Card className="border-0 shadow-sm">
+        <Card className="neon-card border">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2">
-              <Trophy className="w-4 h-4 text-yellow-500" />
+            <CardTitle className="text-xs font-semibold uppercase tracking-widest flex items-center gap-2 text-muted-foreground">
+              <Trophy className="w-4 h-4 neon-text-yellow" />
               Most Completed
             </CardTitle>
           </CardHeader>
@@ -330,7 +364,10 @@ export default function StatsPage() {
                       <p className="text-sm font-medium truncate">{chore.name}</p>
                       <p className="text-xs text-muted-foreground">{chore.category}</p>
                     </div>
-                    <Badge variant="secondary" className="text-xs flex-shrink-0">
+                    <Badge
+                      variant="secondary"
+                      className="text-xs flex-shrink-0 bg-[#00f5ff15] text-[#00f5ff] border border-[#00f5ff30]"
+                    >
                       {chore.totalCompletions}x
                     </Badge>
                   </div>
@@ -341,10 +378,10 @@ export default function StatsPage() {
         </Card>
 
         {/* Streak leaders */}
-        <Card className="border-0 shadow-sm">
+        <Card className="neon-card border">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2">
-              <Flame className="w-4 h-4 text-orange-500" />
+            <CardTitle className="text-xs font-semibold uppercase tracking-widest flex items-center gap-2 text-muted-foreground">
+              <Flame className="w-4 h-4 neon-text-orange" />
               Streak Leaders
             </CardTitle>
           </CardHeader>
@@ -360,7 +397,7 @@ export default function StatsPage() {
                       <p className="text-sm font-medium truncate">{chore.name}</p>
                       <p className="text-xs text-muted-foreground">{chore.category}</p>
                     </div>
-                    <div className="flex items-center gap-1 text-orange-500 flex-shrink-0">
+                    <div className="flex items-center gap-1 neon-text-orange flex-shrink-0">
                       <Flame className="w-3 h-3" />
                       <span className="text-sm font-bold">{chore.streak}</span>
                     </div>
