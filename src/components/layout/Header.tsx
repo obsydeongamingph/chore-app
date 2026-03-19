@@ -1,21 +1,28 @@
 'use client'
 
-import { Moon, Sun, Plus, Menu, Zap } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { Moon, Sun, Plus, Menu } from 'lucide-react'
 import { useChoresContext } from '@/components/providers/ChoresProvider'
-import { getXPLevel } from '@/lib/points'
 import { QuickAdd } from '@/components/chores/QuickAdd'
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
+
+const PAGE_TITLES: Record<string, string> = {
+  '/': 'Dashboard',
+  '/chores': 'All Chores',
+  '/history': 'History',
+  '/stats': 'Statistics',
+  '/grocery': 'Grocery',
+}
 
 interface HeaderProps {
   onMenuClick: () => void
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
-  const { totalPoints, theme, setTheme } = useChoresContext()
+  const { theme, setTheme } = useChoresContext()
   const [quickAddOpen, setQuickAddOpen] = useState(false)
-  const xp = getXPLevel(totalPoints)
+  const pathname = usePathname()
+  const title = PAGE_TITLES[pathname] ?? 'ChoreApp'
 
   return (
     <>
@@ -36,58 +43,14 @@ export function Header({ onMenuClick }: HeaderProps) {
           <Menu className="w-5 h-5" />
         </button>
 
-        {/* XP display */}
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          {/* XP pill */}
-          <div
-            className="hidden sm:flex items-center gap-2 rounded-full px-3 py-1.5 cursor-default"
-            style={{
-              background: 'rgba(255, 204, 0, 0.08)',
-              border: '1px solid rgba(255, 204, 0, 0.25)',
-            }}
+        {/* Page title */}
+        <div className="flex-1 min-w-0">
+          <span
+            className="text-sm font-bold tracking-widest uppercase"
+            style={{ color: '#00f5ff', textShadow: '0 0 10px rgba(0,245,255,0.5)' }}
           >
-            <Zap className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#ffcc00', filter: 'drop-shadow(0 0 4px #ffcc00)' }} />
-            <span
-              className="text-xs font-bold"
-              style={{ color: '#ffcc00', textShadow: '0 0 8px rgba(255,204,0,0.7)' }}
-            >
-              {totalPoints.toLocaleString()} XP
-            </span>
-          </div>
-
-          {/* Level + progress */}
-          <div className="hidden md:flex flex-col gap-0.5 min-w-0 flex-1 max-w-48">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-xs font-medium text-muted-foreground truncate uppercase tracking-wider">
-                Lvl {xp.level} · {xp.title}
-              </span>
-              <Badge
-                variant="secondary"
-                className="text-xs px-1.5 py-0 h-4 flex-shrink-0"
-                style={{
-                  background: 'rgba(0,245,255,0.1)',
-                  border: '1px solid rgba(0,245,255,0.25)',
-                  color: '#00f5ff',
-                }}
-              >
-                {xp.progress}%
-              </Badge>
-            </div>
-            {/* Custom neon progress bar */}
-            <div
-              className="h-1.5 rounded-full overflow-hidden"
-              style={{ background: '#1e1e3f' }}
-            >
-              <div
-                className="h-full rounded-full transition-all duration-500"
-                style={{
-                  width: `${xp.progress}%`,
-                  background: 'linear-gradient(90deg, #00f5ff 0%, #bf00ff 100%)',
-                  boxShadow: '0 0 6px rgba(0,245,255,0.6)',
-                }}
-              />
-            </div>
-          </div>
+            {title}
+          </span>
         </div>
 
         {/* Actions */}

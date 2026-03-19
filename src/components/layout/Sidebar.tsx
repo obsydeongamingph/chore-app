@@ -10,6 +10,8 @@ import {
   Zap,
   X,
   ShoppingCart,
+  ChevronRight,
+  ChevronLeft,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -24,9 +26,11 @@ const navItems = [
 interface SidebarProps {
   open: boolean
   onClose: () => void
+  collapsed: boolean
+  onToggle: () => void
 }
 
-export function Sidebar({ open, onClose }: SidebarProps) {
+export function Sidebar({ open, onClose, collapsed, onToggle }: SidebarProps) {
   const pathname = usePathname()
 
   return (
@@ -42,10 +46,11 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed top-0 left-0 h-full w-64 z-30 flex flex-col',
-          'transition-transform duration-300 ease-in-out',
+          'fixed top-0 left-0 h-full z-30 flex flex-col w-64',
+          'transition-all duration-200 ease-in-out',
           open ? 'translate-x-0' : '-translate-x-full',
-          'lg:translate-x-0 lg:relative lg:z-auto'
+          'lg:translate-x-0 lg:relative lg:z-auto',
+          collapsed ? 'lg:w-16' : 'lg:w-64',
         )}
         style={{
           background: 'linear-gradient(180deg, rgba(8,8,18,0.72) 0%, rgba(10,10,24,0.72) 100%)',
@@ -57,12 +62,15 @@ export function Sidebar({ open, onClose }: SidebarProps) {
       >
         {/* Logo */}
         <div
-          className="flex items-center justify-between p-5"
+          className={cn(
+            'flex items-center h-16 shrink-0',
+            collapsed ? 'lg:justify-center px-3' : 'justify-between px-5'
+          )}
           style={{ borderBottom: '1px solid #1e1e3f' }}
         >
           <div className="flex items-center gap-2.5">
             <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center"
+              className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
               style={{
                 background: 'linear-gradient(135deg, #00f5ff 0%, #0080ff 100%)',
                 boxShadow: '0 0 14px rgba(0,245,255,0.6)',
@@ -71,7 +79,10 @@ export function Sidebar({ open, onClose }: SidebarProps) {
               <Zap className="w-4 h-4 text-[#0a0a0f]" />
             </div>
             <span
-              className="font-bold text-lg tracking-widest uppercase"
+              className={cn(
+                'font-bold text-lg tracking-widest uppercase transition-all duration-200',
+                collapsed && 'lg:hidden'
+              )}
               style={{ color: '#00f5ff', textShadow: '0 0 10px rgba(0,245,255,0.7)' }}
             >
               ChoreApp
@@ -79,14 +90,14 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           </div>
           <button
             onClick={onClose}
-            className="lg:hidden p-1 rounded-md text-muted-foreground hover:text-[#00f5ff] transition-colors"
+            className={cn('p-1 rounded-md text-muted-foreground hover:text-[#00f5ff] transition-colors lg:hidden')}
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Nav items */}
-        <nav className="flex-1 p-4 space-y-1">
+        <nav className={cn('flex-1 space-y-1', collapsed ? 'lg:p-2 p-4' : 'p-4')}>
           {navItems.map(item => {
             const Icon = item.icon
             const isActive = pathname === item.href
@@ -95,8 +106,10 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                 key={item.href}
                 href={item.href}
                 onClick={() => onClose()}
+                title={collapsed ? item.label : undefined}
                 className={cn(
                   'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 uppercase tracking-wider',
+                  collapsed && 'lg:justify-center lg:px-0',
                   isActive
                     ? 'text-[#0a0a0f]'
                     : 'text-muted-foreground hover:text-[#00f5ff]'
@@ -107,21 +120,38 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                 } : {}}
               >
                 <Icon className="w-4 h-4 flex-shrink-0" />
-                {item.label}
+                <span className={cn('transition-all duration-200', collapsed && 'lg:hidden')}>
+                  {item.label}
+                </span>
               </Link>
             )
           })}
         </nav>
 
-        {/* Footer */}
-        <div
-          className="p-4"
+        {/* Desktop toggle button */}
+        <button
+          onClick={onToggle}
+          className="hidden lg:flex items-center p-3 text-muted-foreground hover:text-[#00f5ff] transition-colors shrink-0"
           style={{ borderTop: '1px solid #1e1e3f' }}
+        >
+          {collapsed ? (
+            <ChevronRight className="w-4 h-4 mx-auto" />
+          ) : (
+            <div className="flex items-center gap-2 text-xs uppercase tracking-widest">
+              <ChevronLeft className="w-4 h-4" />
+              <span>Collapse</span>
+            </div>
+          )}
+        </button>
+
+        {/* Footer (expanded only) */}
+        <div
+          className={cn('p-4 shrink-0', collapsed && 'lg:hidden')}
+          style={{ borderTop: collapsed ? undefined : '1px solid #1e1e3f' }}
         >
           <p className="text-xs text-muted-foreground text-center uppercase tracking-widest">
             Level up your space
           </p>
-          {/* Neon accent line at bottom */}
           <div
             className="mt-3 h-[1px] rounded-full"
             style={{ background: 'linear-gradient(90deg, transparent, #00f5ff66, transparent)' }}
